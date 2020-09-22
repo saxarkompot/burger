@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.module.css';
 import App from './containers/App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
    //<React.StrictMode>
-      <App title="Relevant Persons"/>,
+      <App />,
    //</React.StrictMode>,
    document.getElementById('root')
 );
