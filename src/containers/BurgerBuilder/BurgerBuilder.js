@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Auxiliary from "../../hoc/Auxiliary"
 import Burger from "../../components/Layout/Burger/Burger";
 import BuildControls from "../../components/Layout/Burger/BuildControls/BuildControls";
+import Modal from "../../components/UI/Modal/Modal";
+import OrderSummary from "../../components/Layout/Burger/OrderSummary/OrderSummary";
 
 const INGREDIENT_PRICES = {
    salad: 0.5,
@@ -22,15 +24,15 @@ class BurgerBuilder extends Component {
          cheese: 0,
          meat: 0
       },
-      totalPrice: 4, //Object.keys(INGREDIENT_PRICES).map((n, i) => n[i] * this.ingredients[n]).reduce((acc, cur) => acc + cur, 0),
+      totalPrice: 4,
       purchasable: false
    }
 
    updatePurchaseState(ingredients) {
-      const sum = Object.keys(ingredients)
-         .map(igKey => {
-            return ingredients[igKey]
-         })
+      const sum = Object.values(ingredients)
+         // .map(igKey => {
+         //    return ingredients[igKey]
+         // })
          .reduce((sum, el) => {
             return sum + el
          }, 0);
@@ -76,6 +78,19 @@ class BurgerBuilder extends Component {
       this.updatePurchaseState(updatedIngredients);
    }
 
+   // totalPriceRender() {
+   //    const newPrice = Object.keys(INGREDIENT_PRICES)
+   //       .map((n, i) => INGREDIENT_PRICES[n] * this.state.ingredients[n])
+   //       .reduce((acc, cur) => acc + cur, 0);
+   //    this.setState({
+   //       totalPrice: newPrice
+   //    })
+   // }
+
+   // componentDidMount() {
+   //    this.totalPriceRender();
+   // }
+
    render() {
       const disabledInfo = {
          ...this.state.ingredients
@@ -83,8 +98,13 @@ class BurgerBuilder extends Component {
       for (let key in disabledInfo) {
          disabledInfo[key] = disabledInfo[key] <= 0;
       }
+
+
       return (
          <Auxiliary>
+            <Modal>
+               <OrderSummary ingredients={this.state.ingredients} />
+            </Modal>
             <Burger ingredients={this.state.ingredients} />
             <BuildControls
                ingredientAdded={this.addIngredientHandler}
